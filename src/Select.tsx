@@ -59,6 +59,24 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
         case "Enter":
         case "Space":
           setIsOpen((prev) => !prev);
+          if (isOpen) selectOption(options[highLightedIndex]);
+          break;
+        case "ArrowUp":
+        case "ArrowDown": {
+          if (!isOpen) {
+            setIsOpen(true);
+            break;
+          }
+          const newValue = highLightedIndex + (e.code === "ArrowDown" ? 1 : -1);
+
+          if (newValue >= 0 && newValue < options.length) {
+            setHighLightedIndex(newValue);
+          }
+
+          break;
+        }
+        case "Escape":
+          setIsOpen(false);
           break;
       }
     };
@@ -68,7 +86,7 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
     return () => {
       containerRef.current?.removeEventListener("keydown", handler);
     };
-  });
+  }, [isOpen, highLightedIndex, options]);
 
   return (
     <div
