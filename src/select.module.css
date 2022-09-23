@@ -10,7 +10,6 @@
   border-radius: 0.3em;
   outline: none;
   margin: 1em;
-  /* line-height: 1.5; */
   letter-spacing: 0.12em;
 }
 
@@ -21,6 +20,10 @@
 .value {
   flex-grow: 1;
   cursor: default;
+  display: flex;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  letter-spacing: 0.12em;
 }
 
 .clear-btn {
@@ -93,4 +96,30 @@
 }
 .options::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.option-badge {
+  display: flex;
+  align-items: center;
+  border: 0.094em solid #bcbcbc;
+  border-radius: 0.3em;
+  padding: 0 0.9em;
+  gap: 0.4em;
+  letter-spacing: 0.12em;
+}
+
+.option-badge > .clear-btn {
+  font-size: 1.25rem;
+  color: #555;
+}
+
+.option-badge:hover,
+.option-badge:focus {
+  border-color: #e21c1c;
+  background-color: #f9d2d2;
+}
+
+.option-badge:hover > .clear-btn,
+.option-badge:focus > .clear-btn {
+  color: #e21c1c;
 }
