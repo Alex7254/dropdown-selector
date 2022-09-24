@@ -26,6 +26,7 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [highLightedIndex, setHighLightedIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const optionRef = useRef<HTMLUListElement>(null);
 
   function clearOptions() {
     multiple ? onChange([]) : onChange(undefined);
@@ -68,11 +69,12 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
             break;
           }
           const newValue = highLightedIndex + (e.code === "ArrowDown" ? 1 : -1);
-
           if (newValue >= 0 && newValue < options.length) {
+            optionRef.current?.children[newValue].scrollIntoView({
+              block: "nearest",
+            });
             setHighLightedIndex(newValue);
           }
-
           break;
         }
         case "Escape":
@@ -86,7 +88,7 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
     return () => {
       containerRef.current?.removeEventListener("keydown", handler);
     };
-  }, [isOpen, highLightedIndex, options]);
+  }, [isOpen, highLightedIndex, options, optionRef]);
 
   return (
     <div
@@ -124,7 +126,10 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
       </button>
       <div className={styles.divider}></div>
       <div className={styles.caret}></div>
-      <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}>
+      <ul
+        className={`${styles.options} ${isOpen ? styles.show : ""}`}
+        ref={optionRef}
+      >
         {options?.map((option, index) => (
           <li
             className={`${styles.option} ${
